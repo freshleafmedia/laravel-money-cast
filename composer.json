@@ -1,0 +1,26 @@
+{
+    "name": "freshleafmedia/laravel-money-cast",
+    "description": "A Laravel attribute cast for Money values",
+    "type": "library",
+    "require": {
+        "moneyphp/money": "^3.3",
+        "illuminate/contracts": "^7 || ^8 || ^9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Freshleafmedia\\MoneyCast\\": "src/"
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "pest"
+    }
+}
