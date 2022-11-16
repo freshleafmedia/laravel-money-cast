@@ -51,7 +51,7 @@ $cost->getCurrency()->getCode() // 'GBP'
 
 ## Decimal Amounts
 
-Note that due to the way moneyphp/money works amounts are in the smallest unit.
+Note that due to the way [moneyphp/money](https://github.com/moneyphp/money) works amounts are in the smallest unit.
 For example `GBP100` is £1.00 and `USD100` is $1.00.
 
 See the [Formatting section](https://www.moneyphp.org/en/stable/features/formatting.html) of the moneyphp docs for details
