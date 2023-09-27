@@ -3,8 +3,8 @@
     "description": "A Laravel attribute cast for Money values",
     "type": "library",
     "require": {
-        "moneyphp/money": "^3.3",
-        "illuminate/contracts": "^7 || ^8 || ^9"
+        "moneyphp/money": "^3.3 || ^4.0",
+        "illuminate/contracts": "^7 || ^8 || ^9 || ^10"
     },
     "license": "MIT",
     "autoload": {
