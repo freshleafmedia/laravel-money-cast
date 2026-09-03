@@ -5,6 +5,7 @@ namespace Freshleafmedia\MoneyCast;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
+use Money\Exception\UnknownCurrencyException;
 use Money\Money;
 use Money\Parser\DecimalMoneyParser;
 
@@ -18,8 +19,13 @@ final class MoneyCast implements CastsAttributes
 
         $currencyCode = substr($value, 0, 3);
         $amount = substr($value, 3);
+        $currency = new Currency($currencyCode);
 
-        return new Money($amount, new Currency($currencyCode));
+        if ((new ISOCurrencies())->contains($currency) === false) {
+            throw new UnknownCurrencyException("Unknown currency code [$currencyCode] in value [$value].");
+        }
+
+        return new Money($amount, $currency);
     }
 
     public function set($model, string $key, $value, array $attributes): ?string

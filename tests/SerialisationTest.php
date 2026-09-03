@@ -42,4 +42,6 @@ test('Un-serialisation throws on malformed values', function ($malformedValue) {
     'GPB',
     '100',
     '-EUR1337',
+    '$100',
+    'YEN',
 ]);
