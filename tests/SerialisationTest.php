@@ -12,8 +12,10 @@ test('Serialises values', function ($value, $expected) {
 ->with([
     [new Money(100, new Currency('GBP')), 'GBP100'],
     [new Money(-100, new Currency('GBP')), 'GBP-100'],
+    [new Money(100, new Currency('JPY')), 'JPY100'],
     ['GBP100', 'GBP10000'],
     ['GBP-100', 'GBP-10000'],
+    ['JPY0', 'JPY0'],
     [null, null],
 ]);
 
@@ -27,6 +29,7 @@ test('Un-serialises values', function ($value, $expected) {
 ->with([
     ['GBP100', new Money(100, new Currency('GBP'))],
     ['GBP-100', new Money(-100, new Currency('GBP'))],
+    ['JPY2290', new Money(2290, new Currency('JPY'))],
     [null, null],
 ]);
 
@@ -39,9 +42,13 @@ test('Un-serialisation throws on malformed values', function ($malformedValue) {
 ->with([
     'GB100',
     '',
+    ' ',
     'GPB',
     '100',
     '-EUR1337',
     '$100',
     'YEN',
+    'JPY',
+    'GBP10,000',
+    'GBP10.10',
 ]);
