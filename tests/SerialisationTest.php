@@ -1,46 +1,34 @@
 <?php
 
 use Freshleafmedia\MoneyCast\MoneyCast;
+use Money\Currency;
+use Money\Money;
 
-test('Serialises Money instances', function () {
-    $cast = new MoneyCast();
-    $money = new \Money\Money(100, new \Money\Currency('GBP'));
-
-    expect($cast->set(null, 'cost', $money, []))
-        ->toBeString()
-        ->toBe('GBP100');
-});
-
-test('Serialises strings', function () {
+test('Serialises values', function ($value, $expected) {
     $cast = new MoneyCast();
 
-    expect($cast->set(null, 'cost', 'GBP100', []))
-        ->toBeString()
-        ->toBe('GBP10000');
-});
+    expect($cast->set(null, 'cost', $value, []))->toBe($expected);
+})
+->with([
+    [new Money(100, new Currency('GBP')), 'GBP100'],
+    [new Money(-100, new Currency('GBP')), 'GBP-100'],
+    ['GBP100', 'GBP10000'],
+    ['GBP-100', 'GBP-10000'],
+    [null, null],
+]);
 
-test('Serialisation handles null values', function () {
+test('Un-serialises values', function ($value, $expected) {
     $cast = new MoneyCast();
 
-    expect($cast->set(null, 'cost', null, []))->toBeNull();
-});
+    $moneyCast = $cast->get(null, 'cost', $value, []);
 
-test('Un-serialises strings', function () {
-    $cast = new MoneyCast();
-    $money = 'GBP100';
-
-    $moneyCast = $cast->get(null, 'cost', $money, []);
-
-    expect($moneyCast)->toBeInstanceOf(\Money\Money::class);
-    expect($moneyCast->getAmount())->toBe('100');
-    expect($moneyCast->getCurrency()->getCode())->toBe('GBP');
-});
-
-test('Un-serialisation handles null values', function () {
-    $cast = new MoneyCast();
-
-    expect($cast->get(null, 'cost', null, []))->toBeNull();
-});
+    expect($moneyCast)->toEqual($expected);
+})
+->with([
+    ['GBP100', new Money(100, new Currency('GBP'))],
+    ['GBP-100', new Money(-100, new Currency('GBP'))],
+    [null, null],
+]);
 
 test('Un-serialisation throws on malformed values', function ($malformedValue) {
     $cast = new MoneyCast();
@@ -53,4 +41,5 @@ test('Un-serialisation throws on malformed values', function ($malformedValue) {
     '',
     'GPB',
     '100',
+    '-EUR1337',
 ]);
